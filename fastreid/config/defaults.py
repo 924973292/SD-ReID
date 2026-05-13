@@ -267,9 +267,9 @@ _C.DATASETS = CN()
 # Dataset root. Can also be set through the FASTREID_DATASETS environment variable.
 _C.DATASETS.ROOT = os.getenv("FASTREID_DATASETS", "datasets")
 # List of the dataset names for training
-_C.DATASETS.NAMES = ("Market1501",)
+_C.DATASETS.NAMES = ("AG_ReID_v2",)
 # List of the dataset names for testing
-_C.DATASETS.TESTS = ("Market1501",)
+_C.DATASETS.TESTS = ("AG_ReID_v2_AC", "AG_ReID_v2_AW", "AG_ReID_v2_CA", "AG_ReID_v2_WA")
 # Combine trainset and testset joint training
 _C.DATASETS.COMBINEALL = False
 
@@ -390,7 +390,7 @@ _C.TEST.RERANK.LAMBDA = 0.3
 
 # Precise batchnorm
 _C.TEST.PRECISE_BN = CN({"ENABLED": False})
-_C.TEST.PRECISE_BN.DATASET = 'Market1501'
+_C.TEST.PRECISE_BN.DATASET = "AG_ReID_v2"
 _C.TEST.PRECISE_BN.NUM_ITER = 300
 
 

@@ -26,6 +26,7 @@ A generative AG-ReID framework that learns view-aware identity representations w
 ## Table of Contents
 
 - [Overview](#overview)
+- [Visual Overview](#visual-overview)
 - [Paper Information](#paper-information)
 - [Method](#method)
 - [Installation](#installation)
@@ -44,6 +45,20 @@ SD-ReID introduces a **view-aware generative ReID framework**. It first trains a
 
 The method is evaluated on five AG-ReID benchmarks: **CARGO**, **AG-ReIDv1**, **AG-ReIDv2**, **LAGPeR**, and **G2APS-ReID**. Please refer to the [paper](https://arxiv.org/pdf/2504.09549) for full quantitative results and analysis.
 
+## Visual Overview
+
+<div align="center">
+
+![CARGO aerial-ground camera deployment and diversity challenges](assets/cargo_overview.jpg)
+
+**CARGO benchmark overview.** The aerial-ground setting contains large viewpoint changes, diverse person appearances, and heterogeneous camera deployments.
+
+![View-aware decoupling transformer module](assets/vdt_framework.png)
+
+**View-aware representation learning.** The Stage-1 model learns identity-related and view-related representations before Stable Diffusion guided refinement.
+
+</div>
+
 ## Paper Information
 
 | Item | Details |
@@ -52,7 +67,7 @@ The method is evaluated on five AG-ReID benchmarks: **CARGO**, **AG-ReIDv1**, **
 | Preview | [arXiv:2504.09549](https://arxiv.org/abs/2504.09549), v2 revised on Oct. 30, 2025 |
 | Task | Aerial-Ground Person Re-Identification |
 | Benchmarks | CARGO, AG-ReIDv1, AG-ReIDv2, LAGPeR, G2APS-ReID |
-| Codebase | PyTorch, FastReID-style training, Diffusers-based Stable Diffusion modules |
+| Codebase | PyTorch, modular ReID training, Diffusers-based Stable Diffusion modules |
 
 ## Method
 
@@ -225,7 +240,7 @@ python tools/train_net.py --config-file configs/v2/base_stage1.yml --eval-only -
 Before long runs, a lightweight sanity check is recommended:
 
 ```bash
-python -m compileall fastreid tools demo tests
+python -m compileall fastreid tools
 for s in CARGO.sh run_G2APS_ReID.sh run_G2APS_ReID_128.sh run_LAGPeR.sh run_v2.sh go/base.sh; do bash -n "$s"; done
 ```
 
