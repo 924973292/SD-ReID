@@ -1,0 +1,145 @@
+
+MODEL:
+  META_ARCHITECTURE: Baseline_stage2_old
+
+  PIXEL_MEAN: [127.5, 127.5, 127.5]
+  PIXEL_STD: [127.5, 127.5, 127.5]
+
+  SEED: 1111
+
+  WEIGHTS: "logs/cargo/base_stage1_beta/model_best.pth"
+
+  BACKBONE:
+    NAME:  build_vit_prompt
+
+
+    DEPTH: base
+    FEAT_DIM: 768
+    PRETRAIN: True
+    PRETRAIN_PATH: "pretrained/jx_vit_base_p16_224-80ecf9dd.pth"
+
+    STRIDE_SIZE: (16, 16)
+    DROP_PATH_RATIO: 0.1
+    DROP_RATIO: 0.0
+    ATT_DROP_RATE: 0.0
+
+  SDMODEL:
+    U_COND_PERCENT: 0.05
+    VIEW_NUM: 2
+    MOEMNTUM: 0.8
+
+    TRAIN_STEP: 1000
+
+    FIRST_STAGE_CONFIG:
+      PRETRAINED_PATH: "pretrained/stable-diffusion-v1-5/vae"
+
+    UNET_CONFIG:
+      PRETRAINED_PATH: "pretrained/stable-diffusion-v1-5/unet"
+
+    SCHEDULER_CONFIG:
+      PRETRAINED_PATH: "pretrained/stable-diffusion-v1-5/scheduler"
+      CUBIC_SAMPLING: True
+      NAME: "ddpm"  # ddpm, ddim, euler, pndm
+
+    CON_LEARNER_CONFIG:
+      N_CTX: 12
+      CTX_DIM: 768
+
+      DEPTH: 1
+
+      HEADS: 12
+
+      IN_CHANNEL: 320
+      OUT_CHANNELS: [320, 640, 1280, 320, 640, 1280]
+
+      SWITCH: 2
+      SWITCH2: 1
+
+
+  HEADS:
+    NAME: EmbeddingHead
+    NORM: BN
+    WITH_BNNECK: True
+    POOL_LAYER: Identity
+    NECK_FEAT: before
+    CLS_LAYER: Linear
+
+  LOSSES:
+    NAME: ("CrossEntropyLoss", "TripletLoss",)
+
+    CE:
+      EPSILON: 0.
+      SCALE: 1.
+      # view-related learning
+      VIEW_ID: True
+      VIEW_OREG: True
+      VIEW_LAMBDA: 0.001
+
+    TRI:
+      MARGIN: 0.0
+      HARD_MINING: True
+      NORM_FEAT: False
+      SCALE: 1.
+
+
+
+INPUT:
+  SIZE_TRAIN: [ 256, 128 ]
+  SIZE_TEST: [ 256, 128 ]
+
+  REA:
+    ENABLED: False
+    PROB: 0.5
+
+  FLIP:
+    ENABLED: True
+
+  PADDING:
+    ENABLED: False
+
+DATALOADER:
+  SAMPLER_TRAIN: NaiveIdentitySampler
+
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  AMP:
+    ENABLED: True
+
+  CLIP_GRADIENTS:
+    ENABLED: True
+
+  MAX_EPOCH: 120
+
+  CHECKPOINT_PERIOD: 5
+
+  IMS_PER_BATCH: 128
+
+  OPT: Adam
+  BASE_LR: 1.0e-4
+  DECAY_RATE: 0.1
+  DECAY_EPOCHS: [50]
+  OVERRIDE_LR: 0.
+
+  SCHED: LinearWarmupMultiStepDecayLRScheduler
+
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 1000
+
+TEST:
+  EVAL_PERIOD: 100
+  IMS_PER_BATCH:  1024
+
+
+  SDMODEL:
+    NUM_INFERENCE_STEPS: 5
+    INVERSE_TYPE: 'uc_full'
+
+CUDNN_BENCHMARK: True
+
+DATASETS:
+  NAMES: ("CARGO",)
+  TESTS: ("CARGO", "CARGO_GG", "CARGO_AA", "CARGO_AG",)
+
+OUTPUT_DIR: logs/cargo/base_stage2_s2_train_1000_warm0.01_u0.05_all2_ucfull_reg0_downup_step5

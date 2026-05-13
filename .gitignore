@@ -1,0 +1,35 @@
+# Python cache and local environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Native/Cython build products
+build/
+*.egg-info/
+*.so
+*.pyd
+*.dylib
+fastreid/evaluation/rank_cylib/*.c
+
+# Experiment outputs and large local assets
+/logs/
+/output/
+/outputs/
+/wandb/
+/datasets/*
+!/datasets/README.md
+/pretrained/
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+
+# Editors and OS files
+.DS_Store
+.vscode/

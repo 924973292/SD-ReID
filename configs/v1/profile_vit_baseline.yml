@@ -1,0 +1,9 @@
+_BASE_: "./base_stage1.yml"
+
+MODEL:
+  META_ARCHITECTURE: Baseline
+
+  BACKBONE:
+    NAME: build_vit_backbone
+
+OUTPUT_DIR: logs/profile_vit_baseline
