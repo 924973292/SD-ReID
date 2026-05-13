@@ -26,7 +26,6 @@ A generative AG-ReID framework that learns view-aware identity representations w
 ## Table of Contents
 
 - [Overview](#overview)
-- [Visual Overview](#visual-overview)
 - [Paper Information](#paper-information)
 - [Method](#method)
 - [Installation](#installation)
@@ -44,20 +43,6 @@ Aerial-Ground Person Re-Identification (AG-ReID) aims to retrieve a target perso
 SD-ReID introduces a **view-aware generative ReID framework**. It first trains a ViT-based ReID model to produce person representations and controllable identity/view conditions, then fine-tunes Stable Diffusion to enhance person representations under these conditions. A View-Refined Decoder (VRD) bridges instance-level and global-level features, and the final retrieval uses both person representations and all-view features.
 
 The method is evaluated on five AG-ReID benchmarks: **CARGO**, **AG-ReIDv1**, **AG-ReIDv2**, **LAGPeR**, and **G2APS-ReID**. Please refer to the [paper](https://arxiv.org/pdf/2504.09549) for full quantitative results and analysis.
-
-## Visual Overview
-
-<div align="center">
-
-![CARGO aerial-ground camera deployment and diversity challenges](assets/cargo_overview.jpg)
-
-**CARGO benchmark overview.** The aerial-ground setting contains large viewpoint changes, diverse person appearances, and heterogeneous camera deployments.
-
-![View-aware decoupling transformer module](assets/vdt_framework.png)
-
-**View-aware representation learning.** The Stage-1 model learns identity-related and view-related representations before Stable Diffusion guided refinement.
-
-</div>
 
 ## Paper Information
 
